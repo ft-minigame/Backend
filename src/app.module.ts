@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Cat } from './cat/entity/cat.entity';
-import { CatModule } from './cat/cat.modlue';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
@@ -22,12 +20,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
-        entities: [Cat],
         synchronize: true,
       };
       },
     }),
-    CatModule,
   ],
   controllers: [AppController],
   providers: [AppService],
