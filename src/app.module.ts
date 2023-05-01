@@ -1,29 +1,17 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UsersModule } from './v1/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UserRepository } from './v1/users/domain/repositories/users.repository';
+import { User } from './v1/users/domain/models/user.entity';
+import databaseConfig from './config/database.config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-    envFilePath: '.dev.env',
-  }),
-  TypeOrmModule.forRootAsync({
-    imports: [ConfigModule],
-    inject: [ConfigService],
-    useFactory: async (configService: ConfigService) =>{
-      return{
-        type: 'mysql',
-        host: configService.get('DB_HOST'),
-        port: configService.get('DB_PORT'),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_DATABASE'),
-        synchronize: true,
-      };
-      },
-    }),
+    TypeOrmModule.forRoot(databaseConfig),
+    TypeOrmModule.forFeature([UserRepository, User]),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
