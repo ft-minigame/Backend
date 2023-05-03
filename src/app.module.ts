@@ -3,21 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './v1/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import databaseConfig from './config/database.config';
-import { DataSource } from 'typeorm';
-
-const typeOrmConfig = {
-  imports: [
-    ConfigModule.forRoot({
-      load: [databaseConfig],
-    }),
-  ],
-  inject: [ConfigService],
-  useFactory: async (configService: ConfigService) =>
-    configService.get('database'),
-  dataSourceFactory: async (options) => new DataSource(options).initialize(),
-};
+import { ConfigModule } from '@nestjs/config';
+import { typeOrmConfig } from './config/typeORM.config';
 
 @Module({
   imports: [
