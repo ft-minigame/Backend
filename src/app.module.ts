@@ -5,19 +5,27 @@ import { UsersModule } from './v1/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import databaseConfig from './config/database.config';
+import { DataSource } from 'typeorm';
+
+const typeOrmConfig = {
+  imports: [
+    ConfigModule.forRoot({
+      load: [databaseConfig],
+    }),
+  ],
+  inject: [ConfigService],
+  useFactory: async (configService: ConfigService) =>
+    configService.get('database'),
+  dataSourceFactory: async (options) => new DataSource(options).initialize(),
+};
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.dev.env',
-      load: [databaseConfig],
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => configService.get('db'),
-      inject: [ConfigService],
-    }),
+    TypeOrmModule.forRootAsync(typeOrmConfig),
     UsersModule,
   ],
   controllers: [AppController],
