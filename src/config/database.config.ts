@@ -1,9 +1,12 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { registerAs } from '@nestjs/config';
-
+import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 export default registerAs(
-  'db',
-  (): TypeOrmModuleOptions => ({
+  'database',
+  (): MysqlConnectionOptions => ({
+    logging: false,
+    migrationsRun: true,
+    migrationsTableName: 'migrations',
+    migrations: ['dist/migrations/*{.ts,.js}'],
     type: 'mariadb',
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT) || 32251,

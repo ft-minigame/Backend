@@ -3,21 +3,16 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './v1/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import databaseConfig from './config/database.config';
+import { ConfigModule } from '@nestjs/config';
+import { typeOrmConfig } from './config/typeORM.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.dev.env',
-      load: [databaseConfig],
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => configService.get('db'),
-      inject: [ConfigService],
-    }),
+    TypeOrmModule.forRootAsync(typeOrmConfig),
     UsersModule,
   ],
   controllers: [AppController],
