@@ -4,7 +4,6 @@ export default registerAs(
   'database',
   (): MysqlConnectionOptions => ({
     logging: false,
-    migrationsRun: true,
     migrationsTableName: 'migrations',
     migrations: ['dist/migrations/*{.ts,.js}'],
     type: 'mariadb',
