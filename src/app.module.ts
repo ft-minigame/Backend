@@ -3,14 +3,16 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './v1/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserRepository } from './v1/users/domain/repositories/users.repository';
-import { User } from './v1/users/domain/models/user.entity';
-import databaseConfig from './config/database.config';
+import { ConfigModule } from '@nestjs/config';
+import { typeOrmConfig } from './config/typeORM.config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(databaseConfig),
-    TypeOrmModule.forFeature([UserRepository, User]),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.dev.env',
+    }),
+    TypeOrmModule.forRootAsync(typeOrmConfig),
     UsersModule,
   ],
   controllers: [AppController],
