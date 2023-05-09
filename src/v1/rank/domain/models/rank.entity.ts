@@ -8,7 +8,9 @@ export enum UserCoalitions {
     LEE = "lee",
 }
 
-@Entity()
+@Entity({
+    name: "Rank",
+})
 export class Rank {
     @PrimaryGeneratedColumn()
     id: string;
