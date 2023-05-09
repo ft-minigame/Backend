@@ -8,7 +8,7 @@ export class RankRepository extends Repository<Rank> {
         super(Rank, dataSources.createEntityManager());
     }
 
-    async findAll(): Promise<Rank> {
-        return this.findAll();
+    async findAll(): Promise<Rank[]> {
+        return this.find();
     }
 }
