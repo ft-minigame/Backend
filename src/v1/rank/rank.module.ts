@@ -7,7 +7,7 @@ import { RankService } from "./domain/services/rank.service";
 import { RankRepository } from "./domain/repositories/rank.repository";
 
 @Module({
-    imports: [TypeOrmModule.forFeature(Rank)],
+    imports: [TypeOrmModule.forFeature([Rank])],
     controllers:[RankController],
     providers: [RankService, RankRepository],
-})
+})export class RankModule {}
