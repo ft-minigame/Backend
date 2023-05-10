@@ -1,13 +1,6 @@
 import { User } from "src/v1/users/domain/models/user.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-export enum UserCoalitions {
-    GUN = "gun",
-    GON = "gon",
-    GAM = "gam",
-    LEE = "lee",
-}
-
 @Entity({
     name: "Rank",
 })
@@ -20,12 +13,6 @@ export class Rank {
 
     @Column()
     score: number;
-
-    @Column({
-        type: "enum",
-        enum: UserCoalitions,
-    })
-    coalitions: UserCoalitions;
 
     @CreateDateColumn()
     createdAt: Date;
