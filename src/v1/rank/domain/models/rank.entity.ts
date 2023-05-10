@@ -20,6 +20,12 @@ export class Rank {
     @UpdateDateColumn()
     updatedAt: Date;
 
+    @UpdateDateColumn()
+    playTime: Date;
+
+    @Column()
+    hidden: boolean;
+
     @ManyToOne(type => User, user => user.ranks)
     user: User;
 }
