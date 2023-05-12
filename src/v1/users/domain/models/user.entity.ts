@@ -1,4 +1,4 @@
-import { Rank } from "src/v1/rank/domain/models/rank.entity";
+import { Game } from "src/v1/game/domain/models/game.entitiy";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export enum UserCoalitions{
@@ -31,6 +31,6 @@ export class User {
     @UpdateDateColumn()
     updatedAt: Date;
 
-    @OneToMany(type=>Rank, rank => rank.user)
-    ranks: Rank[];
+    @OneToMany(type=>Game, game => game.user)
+    games: Game[];
 }

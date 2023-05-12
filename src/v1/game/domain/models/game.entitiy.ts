@@ -8,12 +8,18 @@ import {
 } from 'typeorm';
 import { User } from '../../../users/domain/models/user.entity';
 
-@Entity()
+@Entity(
+  {
+    name: "Game",
+  }
+  )
 export class Game {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.games)
+  user: User;
+
   @Column()
   score: number;
 

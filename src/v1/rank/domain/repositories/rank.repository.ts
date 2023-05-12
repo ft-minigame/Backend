@@ -1,14 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import { DataSource, Repository } from "typeorm";
-import { Rank } from "../models/rank.entity";
+import { Game } from "src/v1/game/domain/models/game.entitiy";
 
 @Injectable()
-export class RankRepository extends Repository<Rank> {
+export class RankRepository extends Repository<Game> {
     constructor(private dataSources: DataSource) {
-        super(Rank, dataSources.createEntityManager());
+        super(Game, dataSources.createEntityManager());
     }
 
-    async findAll(): Promise<Rank[]> {
-        return this.find();
+    async findAll(): Promise<Game[]> {
+        return await this.find();
     }
 }
