@@ -1,4 +1,4 @@
-import { Game } from "src/v1/game/domain/models/game.entitiy";
+import { Game } from "src/v1/game/domain/models/game.entity";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export enum UserCoalitions{

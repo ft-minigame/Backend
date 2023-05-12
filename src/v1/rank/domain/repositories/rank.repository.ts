@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { DataSource, Repository } from "typeorm";
-import { Game } from "src/v1/game/domain/models/game.entitiy";
+import { Game } from "src/v1/game/domain/models/game.entity";
 
 @Injectable()
 export class RankRepository extends Repository<Game> {
