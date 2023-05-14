@@ -1,12 +1,12 @@
-import { Controller, Get } from "@nestjs/common";
-import { RankService } from "../domain/services/rank.service";
+import { Controller, Get } from '@nestjs/common';
+import { RankService } from '../domain/services/rank.service';
 
 @Controller('rank')
 export class RankController {
-    constructor(private readonly rankService: RankService) {}
+  constructor(private readonly rankService: RankService) {}
 
-    @Get('all')
-    findAll() {
-        return this.rankService.findAll()
-    }
+  @Get('all')
+  findAll() {
+    return this.rankService.findAll();
+  }
 }
