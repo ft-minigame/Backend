@@ -1,20 +1,16 @@
 import { DataSource } from 'typeorm';
-import { ConfigService } from '@nestjs/config';
-import { config } from 'dotenv';
+import * as dotenv from 'dotenv';
 
-config();
-
-const configService = new ConfigService();
+dotenv.config({ path: '.dev.env' });
 
 export default new DataSource({
-  type: 'mysql',
-  host: 'svc.sel3.cloudtype.app',
-  port: 32251,
-  username: 'root',
-  password: '1234',
-  database: 'MINI',
+  type: 'mariadb',
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT) || 32251,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   synchronize: false,
   entities: ['src/**/*.entity.ts'],
   migrations: ['src/migrations/*.ts'],
-  //migrationsTableName: 'migrations',
 });
