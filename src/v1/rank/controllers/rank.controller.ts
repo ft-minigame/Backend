@@ -1,12 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
 import { RankService } from '../domain/services/rank.service';
+import { Game } from 'src/v1/game/domain/models/game.entity';
 
 @Controller('rank')
 export class RankController {
   constructor(private readonly rankService: RankService) {}
 
   @Get('all')
-  findAll() {
-    return this.rankService.findAll();
+  async findAll(): Promise<Game[]> {
+    return await this.rankService.findAll();
   }
 }
