@@ -14,6 +14,8 @@ export class Game {
   id: string;
 
   @ManyToOne(() => User, (user) => user.id)
+  user: User;
+
   @Column()
   score: number;
 
