@@ -16,7 +16,7 @@ export class UserRepository extends Repository<User> {
 
   async updateById(id: string, updateData: Partial<User>): Promise<User> {
     await this.update(id, updateData);
-    return this.findOneBy({ id });
+    return this.findOneBy({id});
   }
 
   async deleteById(id: string): Promise<void> {

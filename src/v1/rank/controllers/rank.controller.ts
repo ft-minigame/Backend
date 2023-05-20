@@ -10,9 +10,4 @@ export class RankController {
   async findAll(): Promise<Game[]> {
     return await this.rankService.findAll();
   }
-
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Game> {
-    return await this.rankService.findOne(id);
-  }
 }
