@@ -7,6 +7,7 @@ export default registerAs(
     migrationsTableName: 'migrations',
     migrations: ['dist/migrations/*{.ts,.js}'],
     type: 'mariadb',
+    timezone: 'Asia/Seoul',
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT) || 32251,
     username: process.env.DB_USERNAME,

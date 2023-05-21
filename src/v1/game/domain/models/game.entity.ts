@@ -13,19 +13,16 @@ export class Game {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => User, (user) => user.id)
-  user: User;
-
   @Column()
   score: number;
 
-  @Column()
+  @Column({ length: 20 })
   nickname: string;
 
   @Column()
   playTime: Date;
 
-  @Column({ default: true })
+  @Column({ type: Boolean, default: false })
   hidden: boolean;
 
   @CreateDateColumn()
@@ -33,4 +30,7 @@ export class Game {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToOne(() => User, (user) => user.id)
+  user: User;
 }
