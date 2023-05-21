@@ -17,10 +17,10 @@ export enum UserCoalitions {
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ length: 30, unique: true })
   intraId: string;
 
   @Column({
@@ -30,7 +30,7 @@ export class User {
   coalitions: UserCoalitions;
 
   @Column()
-  character: string;
+  character: number; // 캐릭터가 추가될 가능성이 있음 => number
 
   @CreateDateColumn()
   createdAt: Date;
