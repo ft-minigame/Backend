@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { RankService } from '../domain/services/rank.service';
 import { Game } from 'src/v1/game/domain/models/game.entity';
 
