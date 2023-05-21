@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { RankService } from '../domain/services/rank.service';
 import { Game } from 'src/v1/game/domain/models/game.entity';
 
@@ -9,5 +9,10 @@ export class RankController {
   @Get('all')
   async findAll(): Promise<Game[]> {
     return await this.rankService.findAll();
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<Game> {
+    return await this.rankService.findOne(id);
   }
 }
