@@ -10,7 +10,7 @@ import { User } from '../../../users/domain/models/user.entity';
 
 @Entity()
 export class Game {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ManyToOne(() => User, (user) => user.id)
