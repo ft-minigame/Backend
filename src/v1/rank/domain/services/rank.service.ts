@@ -10,7 +10,7 @@ export class RankService {
     return await this.rankRepository.findAll();
   }
 
-  async findOne(id: string): Promise<Game> {
+  async findOneById(id: string): Promise<Game> {
     return await this.rankRepository.findOneById(id);
   }
 }
