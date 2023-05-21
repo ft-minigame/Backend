@@ -12,7 +12,7 @@ export class RankController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Game> {
-    return await this.rankService.findOne(id);
+  async findOneById(@Param('id') id: string): Promise<Game> {
+    return await this.rankService.findOneById(id);
   }
 }
