@@ -11,6 +11,7 @@ export class RankRepository extends Repository<Game> {
   async findAll(): Promise<Game[]> {
     return await this.find();
   }
+
   async findOneById(id: string): Promise<Game> {
     return await this.findOneBy({ id });
   }
