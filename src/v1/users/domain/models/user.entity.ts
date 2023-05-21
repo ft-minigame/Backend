@@ -20,7 +20,7 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ length: 30 })
+  @Column({ length: 30, unique: true })
   intraId: string;
 
   @Column({
@@ -30,7 +30,7 @@ export class User {
   coalitions: UserCoalitions;
 
   @Column()
-  character: number;
+  character: number; // 캐릭터가 추가될 가능성이 있음 => number
 
   @CreateDateColumn()
   createdAt: Date;
