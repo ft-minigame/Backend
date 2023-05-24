@@ -29,7 +29,7 @@ export class User {
   })
   coalitions: UserCoalitions;
 
-  @Column()
+  @Column({ default: 0 })
   character: number;
 
   @CreateDateColumn()
