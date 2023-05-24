@@ -29,9 +29,6 @@ export class User {
   })
   coalitions: UserCoalitions;
 
-  /**
-   * 캐릭터가 추가될 가능성이 있음 => number
-   */
   @Column()
   character: number;
 
