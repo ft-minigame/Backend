@@ -2,7 +2,6 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { RankService } from '../domain/services/rank.service';
 import { FindAllRankResponse } from '../response/findAll-rank.response';
 import { FindOneRankResponse } from '../response/findOne-rank.response';
-import { FindOneRankDto } from '../dto/findOne-rank.dto';
 
 @Controller('rank')
 export class RankController {
@@ -14,9 +13,7 @@ export class RankController {
   }
 
   @Get(':id')
-  async findOneById(
-    @Param('id') findOneRankDto: FindOneRankDto,
-  ): Promise<FindOneRankResponse> {
-    return await this.rankService.findOneById(findOneRankDto);
+  async findOneBy(@Param('id') intraId: string): Promise<FindOneRankResponse> {
+    return await this.rankService.findOneBy(intraId);
   }
 }
