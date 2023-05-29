@@ -1,7 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { RankService } from '../domain/services/rank.service';
 import { FindAllRankResponse } from '../response/findAllRank.response';
-import { FindOneRankResponse } from '../response/findOne-rank.response';
+import { FindOneRankResponse } from '../response/findOneRank.response';
 
 @Controller('rank')
 export class RankController {
