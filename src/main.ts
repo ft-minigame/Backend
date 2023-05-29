@@ -9,7 +9,7 @@ async function bootstrap() {
       'https://web-ft-mingame-6g2llf3p55qu.sel3.cloudtype.app/*',
       'http://localhost:3000/*',
     ],
-    methods: ['GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
     allowedHeaders: [
       'Origin',
