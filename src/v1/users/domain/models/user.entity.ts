@@ -29,8 +29,8 @@ export class User {
   })
   coalitions: UserCoalitions;
 
-  @Column()
-  character: number; // 캐릭터가 추가될 가능성이 있음 => number
+  @Column({ default: 0 })
+  character: number;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -38,6 +38,6 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany((type) => Game, (game) => game.user)
+  @OneToMany(() => Game, (game) => game.user)
   games: Game[];
 }
