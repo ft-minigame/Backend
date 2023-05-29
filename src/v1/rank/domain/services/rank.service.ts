@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { RankRepository } from '../repositories/rank.repository';
-import { FindAllRankResponse } from '../../response/findAll-rank.response';
-import { FindOneRankResponse } from '../../response/findOne-rank.response';
+import { FindAllRankResponse } from '../../response/findAllRank.response';
+import { FindOneRankResponse } from '../../response/findOneRank.response';
 
 @Injectable()
 export class RankService {

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { Game } from 'src/v1/game/domain/models/game.entity';
-import { FindAllRankResponse } from '../../response/findAll-rank.response';
-import { FindOneRankResponse } from '../../response/findOne-rank.response';
+import { FindAllRankResponse } from '../../response/findAllRank.response';
+import { FindOneRankResponse } from '../../response/findOneRank.response';
 
 @Injectable()
 export class RankRepository extends Repository<Game> {
