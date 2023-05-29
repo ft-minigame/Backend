@@ -1,18 +1,19 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { RankService } from '../domain/services/rank.service';
-import { Game } from 'src/v1/game/domain/models/game.entity';
+import { FindAllRankDto } from '../dto/findAll-rank.dto';
+import { FindOneRankDto } from '../dto/findOne-rank.dto';
 
 @Controller('rank')
 export class RankController {
   constructor(private readonly rankService: RankService) {}
 
   @Get('all')
-  async findAll(): Promise<Game[]> {
+  async findAll(): Promise<FindAllRankDto[]> {
     return await this.rankService.findAll();
   }
 
   @Get(':id')
-  async findOneById(@Param('id') id: string): Promise<Game> {
-    return await this.rankService.findOneById(id);
+  async findOneById(@Param('id') user: string): Promise<FindOneRankDto> {
+    return await this.rankService.findOneById(user);
   }
 }
