@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { Game } from 'src/v1/game/domain/models/game.entity';
-import { FindAllRankDto } from '../../dto/findAll-rank.dto';
+import { FindAllRankResponse } from '../../response/findAll-rank.response';
+import { FindOneRankResponse } from '../../response/findOne-rank.response';
 import { FindOneRankDto } from '../../dto/findOne-rank.dto';
 
 @Injectable()
@@ -10,7 +11,7 @@ export class RankRepository extends Repository<Game> {
     super(Game, dataSources.createEntityManager());
   }
 
-  async findAll(): Promise<FindAllRankDto[]> {
+  async findAll(): Promise<FindAllRankResponse[]> {
     const games = await this.find({ relations: ['user'] });
 
     return games.map((game) => ({
@@ -22,17 +23,18 @@ export class RankRepository extends Repository<Game> {
     }));
   }
 
-  async findDtoById(userId: string): Promise<FindOneRankDto> {
-    const one = await this.createQueryBuilder('game')
+  async findDtoById(
+    findOneRankDto: FindOneRankDto,
+  ): Promise<FindOneRankResponse> {
+    const { createdAt, score, nickname } = await this.createQueryBuilder('game')
       .innerJoin('game.user', 'user')
-      .where('user.id = :userId', { userId })
+      .where('user.id = :userId', { userId: findOneRankDto.userId })
       .getOne();
 
-    const gameUserSummaryDto = new FindOneRankDto();
-    gameUserSummaryDto.createdAt = one.createdAt;
-    gameUserSummaryDto.score = one.score;
-    gameUserSummaryDto.nickname = one.nickname;
-
-    return gameUserSummaryDto;
+    return {
+      createdAt,
+      score,
+      nickname,
+    };
   }
 }

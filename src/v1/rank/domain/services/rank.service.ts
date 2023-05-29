@@ -1,17 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { RankRepository } from '../repositories/rank.repository';
-import { FindAllRankDto } from '../../dto/findAll-rank.dto';
+import { FindAllRankResponse } from '../../response/findAll-rank.response';
 import { FindOneRankDto } from '../../dto/findOne-rank.dto';
+import { FindOneRankResponse } from '../../response/findOne-rank.response';
 
 @Injectable()
 export class RankService {
   constructor(private readonly rankRepository: RankRepository) {}
 
-  async findAll(): Promise<FindAllRankDto[]> {
+  async findAll(): Promise<FindAllRankResponse[]> {
     return await this.rankRepository.findAll();
   }
 
-  async findOneById(user: string): Promise<FindOneRankDto> {
-    return await this.rankRepository.findDtoById(user);
+  async findOneById(
+    findOneRankDto: FindOneRankDto,
+  ): Promise<FindOneRankResponse> {
+    return await this.rankRepository.findDtoById(findOneRankDto);
   }
 }

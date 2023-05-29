@@ -1,5 +1,7 @@
+import { IsNotEmpty, IsString } from 'class-validator';
+
 export class FindOneRankDto {
-  createdAt: Date;
-  score: number;
-  nickname: string;
+  @IsString()
+  @IsNotEmpty()
+  readonly userId: string;
 }
