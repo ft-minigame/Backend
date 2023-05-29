@@ -1,6 +1,7 @@
 import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
 import { Game } from '../domain/models/game.entity';
 import { GameService } from '../domain/services/game.service';
+import { UpdateGameDto } from '../dto/update-game.dto';
 
 @Controller('game')
 export class GameController {
@@ -14,7 +15,7 @@ export class GameController {
   @Patch(':id')
   async updateById(
     @Param('id') id: string,
-    @Body() updateGameDto,
+    @Body() updateGameDto: UpdateGameDto,
   ): Promise<Game> {
     return await this.gameService.updateById(id, updateGameDto);
   }
