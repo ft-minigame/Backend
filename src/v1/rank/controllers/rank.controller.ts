@@ -12,8 +12,10 @@ export class RankController {
     return await this.rankService.findAll();
   }
 
-  @Get(':id')
-  async findOneBy(@Param('id') intraId: string): Promise<FindOneRankResponse> {
+  @Get(':intraId')
+  async findOneBy(
+    @Param('intraId') intraId: string,
+  ): Promise<FindOneRankResponse> {
     return await this.rankService.findOneBy(intraId);
   }
 }
