@@ -26,9 +26,9 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @Get(':intraId')
+  findOneByIntraId(@Param('intraId') intraId: string): Promise<User | null> {
+    return this.usersService.findOneByIntraId(intraId);
   }
 
   @Patch(':id')

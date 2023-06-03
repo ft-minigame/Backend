@@ -15,8 +15,8 @@ export class UsersService {
     return `This action returns all users`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOneByIntraId(intraId: string): Promise<User | null> {
+    return await this.userRepository.findOneByIntraId(intraId);
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
