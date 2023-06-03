@@ -26,4 +26,14 @@ export class UsersService {
   remove(id: number) {
     return `This action removes a #${id} user`;
   }
+
+  async findOrCreate(intraId: string): Promise<User> {
+    const user = await this.findOneByIntraId(intraId);
+
+    if (!user) {
+      return await this.create({ intraId });
+    }
+
+    return user;
+  }
 }
