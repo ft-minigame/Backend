@@ -24,6 +24,11 @@ export class UserRepository extends Repository<User> {
   }
 
   async findOneByIntraId(intraId: string): Promise<User | null> {
-    return this.findOneBy({ intraId });
+    try {
+      return await this.findOneBy({ intraId });
+    } catch (err) {
+      console.error(err);
+      throw new Error('Failed to find user by intraId');
+    }
   }
 }
