@@ -8,6 +8,7 @@ export class RankController {
 
   @Get('all')
   async findAll(): Promise<Game[]> {
+    console.log('RankController:findAll');
     return await this.rankService.findAll();
   }
 
