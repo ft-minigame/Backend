@@ -7,6 +7,7 @@ import { User } from '../models/user.entity';
 @Injectable()
 export class UsersService {
   constructor(private readonly userRepository: UserRepository) {}
+
   async create(createUserDto: CreateUserDto): Promise<User> {
     return await this.userRepository.createAndSave(createUserDto);
   }
@@ -16,6 +17,7 @@ export class UsersService {
   }
 
   async findOneByIntraId(intraId: string): Promise<User | null> {
+    console.log('bbbbbbb');
     return await this.userRepository.findOneByIntraId(intraId);
   }
 

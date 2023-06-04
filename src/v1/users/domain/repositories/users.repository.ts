@@ -24,7 +24,9 @@ export class UserRepository extends Repository<User> {
   }
 
   async findOneByIntraId(intraId: string): Promise<User | null> {
+    console.log('bbbbbwerwerawrbb');
     try {
+      console.log('aaaaaa');
       return await this.findOneBy({ intraId });
     } catch (err) {
       console.error(err);

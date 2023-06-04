@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from '../users/domain/services/users.service';
 import { JwtService } from '@nestjs/jwt';
+import axios from 'axios';
 
 interface TokenResponse {
   access_token: string;
@@ -38,45 +39,54 @@ export class AuthService {
     };
   }
 
-  async getProfile(accessToken: string): Promise<ProfileResponse> {
+  async getProfile(accessToken: string): Promise<any> {
     try {
-      const ftProfileResponse = await fetch(
-        `https://api.intra.42.fr/v2/me?access_token=${accessToken}`,
+      const ftProfileResponse = await axios.get(
+        `https://api.intra.42.fr/v2/me`,
         {
-          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         },
       );
-
       if (ftProfileResponse.status !== 200) {
         throw new ConflictException('Failed to fetch profile from 42 API');
       }
 
-      return ftProfileResponse.json();
+      return ftProfileResponse.data;
     } catch (err) {
+      // console.error(err);
       throw new ConflictException(err, '42 api 호출 중 에러가 발생했습니다.');
     }
   }
 
-  async getToken(code: string): Promise<TokenResponse> {
+  async getToken(code: string): Promise<any> {
     return await this.ftFetch(code);
   }
 
-  private async ftFetch(code: string): Promise<TokenResponse> {
-    try {
-      const ftTokenResponse = await fetch(
-        `https://api.intra.42.fr/oauth/token?code=${code}`,
-        {
-          method: 'POST',
-        },
-      );
+  private async ftFetch(code: string) {
+    const UID =
+      'u-s4t2ud-38550761e834c25fce3bd7272f71cdab32f65acead8e2d2373a7770fdeb05175';
+    const SECRET =
+      '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';
+    const REDIRECT_URI = 'http://localhost:3000/redirect';
+    const URL = `https://api.intra.42.fr/oauth/token`;
 
+    try {
+      const ftTokenResponse = await axios.post(URL, {
+        grant_type: 'authorization_code',
+        client_id: UID,
+        client_secret: SECRET,
+        code,
+        redirect_uri: REDIRECT_URI,
+      });
       if (ftTokenResponse.status !== 200) {
         throw new ConflictException('Failed to fetch token from 42 API');
       }
 
-      return ftTokenResponse.json();
-    } catch (e) {
-      console.log(e);
+      return ftTokenResponse.data;
+    } catch (err) {
+      // console.error(err);
       throw new UnauthorizedException();
     }
   }
