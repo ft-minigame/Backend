@@ -14,7 +14,7 @@ import { UserRepository } from '../users/domain/repositories/user.repository';
     UsersModule,
     JwtModule.register({
       global: true,
-      secret: 'secret',
+      secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '60s' },
     }),
   ],
