@@ -4,10 +4,11 @@ import { Game } from './models/game.entity';
 import { GameController } from '../controllers/game.controller';
 import { GameService } from './services/game.service';
 import { GameRepository } from './repositories/game.repository';
+import { UserRepository } from 'src/v1/users/domain/repositories/users.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Game])],
   controllers: [GameController],
-  providers: [GameService, GameRepository],
+  providers: [GameService, GameRepository, UserRepository],
 })
 export class GameModule {}
