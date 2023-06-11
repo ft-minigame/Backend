@@ -13,13 +13,13 @@ export class Game {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ default: 0 })
   score: number;
 
-  @Column({ length: 20 })
+  @Column({ length: 20, default: 'nickname' })
   nickname: string;
 
-  @Column()
+  @Column({ default: null })
   playTime: Date;
 
   @Column({ type: Boolean, default: false })
