@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { Game } from 'src/v1/game/domain/models/game.entity';
+import { UserCoalitions } from '../../../users/domain/models/user.entity';
 import { FindAllRankResponse } from '../../response/findAllRank.response';
 import { FindOneRankResponse } from '../../response/findOneRank.response';
 
@@ -42,5 +43,15 @@ export class RankRepository extends Repository<Game> {
       console.error(error);
       throw error;
     }
+  }
+
+  async findScoresByCoalition(coalition: UserCoalitions): Promise<number> {
+    const totalScore = await this.createQueryBuilder('game')
+      .innerJoin('game.user', 'user')
+      .where('user.coalitions = :coalition', { coalition })
+      .select('SUM(game.score)', 'sum')
+      .getRawOne();
+
+    return totalScore.sum;
   }
 }
