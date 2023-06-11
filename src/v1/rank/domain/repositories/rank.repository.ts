@@ -26,18 +26,6 @@ export class RankRepository extends Repository<Game> {
     }));
   }
 
-  //async findAll(): Promise<FindAllRankResponse[]> {
-  //  const games = await this.find({ relations: ['user'] });
-
-  //  return games.map((game) => ({
-  //    nickname: game.nickname,
-  //    score: game.score,
-  //    coalitions: game.user.coalitions,
-  //    createdAt: game.createdAt,
-  //    intraId: game.user.intraId,
-  //  }));
-  //}
-
   async findManyByIntraId(intraId: string): Promise<FindOneRankResponse[]> {
     try {
       const games = await this.createQueryBuilder('game')
@@ -58,12 +46,19 @@ export class RankRepository extends Repository<Game> {
   }
 
   async findScoresByCoalition(coalition: UserCoalitions): Promise<number> {
-    const totalScore = await this.createQueryBuilder('game')
+    const results = await this.createQueryBuilder('game')
       .innerJoin('game.user', 'user')
       .where('user.coalitions = :coalition', { coalition })
-      .select('SUM(game.score)', 'sum')
-      .getRawOne();
+      .groupBy('user.id')
+      .select('MAX(game.score)', 'max')
+      .getRawMany();
 
-    return totalScore.sum;
+    let totalScore = 0;
+
+    for (let result of results) {
+      totalScore += result.max;
+    }
+
+    return totalScore;
   }
 }
