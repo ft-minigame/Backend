@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { Game } from 'src/v1/game/domain/models/game.entity';
+import { UserCoalitions } from '../../../users/domain/models/user.entity';
 import { FindAllRankResponse } from '../../response/findAllRank.response';
 import { FindOneRankResponse } from '../../response/findOneRank.response';
 
@@ -11,7 +12,10 @@ export class RankRepository extends Repository<Game> {
   }
 
   async findAll(): Promise<FindAllRankResponse[]> {
-    const games = await this.find({ relations: ['user'] });
+    const games = await this.createQueryBuilder('game')
+      .innerJoinAndSelect('game.user', 'user')
+      .orderBy('game.score', 'DESC')
+      .getMany();
 
     return games.map((game) => ({
       nickname: game.nickname,
@@ -22,25 +26,39 @@ export class RankRepository extends Repository<Game> {
     }));
   }
 
-  async findOneByIntraId(intraId: string): Promise<FindOneRankResponse> {
+  async findManyByIntraId(intraId: string): Promise<FindOneRankResponse[]> {
     try {
-      const game = await this.createQueryBuilder('game')
+      const games = await this.createQueryBuilder('game')
         .innerJoin('game.user', 'user')
         .where('user.intraId = :intraId', { intraId })
-        .getOne();
+        .orderBy('game.score', 'DESC')
+        .getMany();
 
-      if (!game) {
-        throw new Error(`No game found with intraId: ${intraId}`);
-      }
-
-      return {
+      return games.map((game) => ({
         createdAt: game.createdAt,
         score: game.score,
         nickname: game.nickname,
-      };
+      }));
     } catch (error) {
       console.error(error);
       throw error;
     }
+  }
+
+  async findScoresByCoalition(coalition: UserCoalitions): Promise<number> {
+    const results = await this.createQueryBuilder('game')
+      .innerJoin('game.user', 'user')
+      .where('user.coalitions = :coalition', { coalition })
+      .groupBy('user.id')
+      .select('MAX(game.score)', 'max')
+      .getRawMany();
+
+    let totalScore = 0;
+
+    for (let result of results) {
+      totalScore += result.max;
+    }
+
+    return totalScore;
   }
 }
