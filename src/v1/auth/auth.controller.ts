@@ -1,17 +1,7 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/domain/services/users.service';
 import { JwtService } from '@nestjs/jwt';
-import axios from 'axios';
-import { User } from '../users/domain/models/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -39,10 +29,8 @@ export class AuthController {
       });
     }
 
-    const jwt = this.jwtService.sign({
-      username: user.intraId,
+    return this.jwtService.sign({
+      username: user,
     });
-
-    return jwt;
   }
 }
