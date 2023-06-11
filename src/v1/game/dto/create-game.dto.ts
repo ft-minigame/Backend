@@ -19,10 +19,6 @@ export class CreateGameDto {
   playTime: Date;
 
   @IsNotEmpty()
-  @IsBoolean()
-  hidden: boolean;
-
-  @IsNotEmpty()
   @IsString()
   intraId: string;
 }
