@@ -1,6 +1,7 @@
 import { Repository, DataSource } from 'typeorm';
 import { User } from '../models/user.entity';
 import { Injectable } from '@nestjs/common';
+import { CreateUserDto } from '../../dto/create-user.dto';
 
 @Injectable()
 export class UserRepository extends Repository<User> {
@@ -8,10 +9,8 @@ export class UserRepository extends Repository<User> {
     super(User, dataSources.createEntityManager());
   }
 
-  async createAndSave(userData: Partial<User>): Promise<User> {
-    const user = this.create(userData);
-    await this.save(user);
-    return user;
+  async createAndSave(createUserDto: CreateUserDto): Promise<User> {
+    return await this.createAndSave(createUserDto);
   }
 
   async updateById(id: string, updateData: Partial<User>): Promise<User> {
@@ -25,7 +24,6 @@ export class UserRepository extends Repository<User> {
 
   async findOneByIntraId(intraId: string): Promise<User | null> {
     try {
-      console.log('aaaaaa');
       return await this.findOneBy({ intraId });
     } catch (err) {
       console.error(err);

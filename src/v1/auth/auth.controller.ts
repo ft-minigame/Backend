@@ -10,6 +10,8 @@ import {
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/domain/services/users.service';
 import { JwtService } from '@nestjs/jwt';
+import axios from 'axios';
+import { User } from '../users/domain/models/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -19,43 +21,28 @@ export class AuthController {
     private readonly jwtService: JwtService,
   ) {}
 
-  @HttpCode(HttpStatus.OK)
-  @Post('login')
-  signIn(@Body() signInDto: Record<string, any>) {
-    return this.authService.signIn(signInDto.username, signInDto.password);
-  }
-
   @Get('/callback')
   async callback(@Query('code') code: string) {
     const { access_token: accessToken } = await this.authService.getToken(code);
     const profile = await this.authService.getProfile(accessToken);
-    console.log(profile);
-    console.log(profile.cursus_users[0]?.user);
-    console.log(profile.cursus_users[0]?.cursus);
-    console.log(profile.cursus_users[1]?.cursus);
-    console.log(profile.cursus_users[2]?.cursus);
-    const user = await this.usersService.findOneByIntraId(profile.login);
-    console.log('a');
-    // if (!user) {
-    //   await this.usersService.create({
-    //     intraId: profile.login,
-    //     email: profile.email,
-    //     name: profile.displayname,
-    //     imageUrl: profile.image_url,
-    //   });
-    // }
-    console.log('d');
-    // console.log(user);
+    let user = await this.usersService.findOneByIntraId(profile.login);
+
+    if (!user) {
+      const coalitions = await this.authService.getCoalition(
+        accessToken,
+        profile.id,
+      );
+
+      user = await this.usersService.createAndSave({
+        intraId: profile.login,
+        coalitions,
+      });
+    }
+
     const jwt = this.jwtService.sign({
-      sub: user.id,
       username: user.intraId,
     });
 
-    return {
-      jwt,
-      user: {
-        intraId: user.intraId,
-      },
-    };
+    return jwt;
   }
 }

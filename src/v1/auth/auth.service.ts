@@ -7,18 +7,7 @@ import { UsersService } from '../users/domain/services/users.service';
 import { JwtService } from '@nestjs/jwt';
 import axios from 'axios';
 import { FtProfileInterface } from './interface/ft-profile.interface';
-
-interface TokenResponse {
-  access_token: string;
-  token_type: string;
-  expires_in: number;
-  scope: string;
-  create_at: number;
-}
-
-interface ProfileResponse {
-  intraId: string;
-}
+import { UserCoalitions } from '../users/domain/models/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -26,19 +15,6 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
   ) {}
-
-  async signIn(intraId, pass) {
-    const user = await this.usersService.findOneByIntraId(intraId);
-
-    if (!user) {
-      //TODO: add user to db
-    }
-
-    const payload = {};
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
-  }
 
   async getProfile(accessToken: string): Promise<FtProfileInterface> {
     try {
@@ -50,6 +26,7 @@ export class AuthService {
           },
         },
       );
+
       if (ftProfileResponse.status !== 200) {
         throw new ConflictException('Failed to fetch profile from 42 API');
       }
@@ -89,6 +66,26 @@ export class AuthService {
     } catch (err) {
       // console.error(err);
       throw new UnauthorizedException();
+    }
+  }
+
+  async getCoalition(accessToken: string, id: number): Promise<UserCoalitions> {
+    try {
+      const coalitionResponse = await axios.get(
+        `https://api.intra.42.fr/v2/users/${id}/coalitions`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+
+      if (coalitionResponse.status !== 200) {
+        throw new ConflictException('Failed to fetch profile from 42 API');
+      }
+      return coalitionResponse.data[0].slug;
+    } catch (err) {
+      throw new ConflictException(err, '42 api 호출 중 에러가 발생했습니다.');
     }
   }
 }
