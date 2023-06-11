@@ -12,7 +12,10 @@ export class RankRepository extends Repository<Game> {
   }
 
   async findAll(): Promise<FindAllRankResponse[]> {
-    const games = await this.find({ relations: ['user'] });
+    const games = await this.createQueryBuilder('game')
+      .innerJoinAndSelect('game.user', 'user')
+      .orderBy('game.score', 'DESC')
+      .getMany();
 
     return games.map((game) => ({
       nickname: game.nickname,
@@ -23,16 +26,25 @@ export class RankRepository extends Repository<Game> {
     }));
   }
 
+  //async findAll(): Promise<FindAllRankResponse[]> {
+  //  const games = await this.find({ relations: ['user'] });
+
+  //  return games.map((game) => ({
+  //    nickname: game.nickname,
+  //    score: game.score,
+  //    coalitions: game.user.coalitions,
+  //    createdAt: game.createdAt,
+  //    intraId: game.user.intraId,
+  //  }));
+  //}
+
   async findManyByIntraId(intraId: string): Promise<FindOneRankResponse[]> {
     try {
       const games = await this.createQueryBuilder('game')
         .innerJoin('game.user', 'user')
         .where('user.intraId = :intraId', { intraId })
+        .orderBy('game.score', 'DESC')
         .getMany();
-
-      if (!games) {
-        throw new Error(`No games found with intraId: ${intraId}`);
-      }
 
       return games.map((game) => ({
         createdAt: game.createdAt,
