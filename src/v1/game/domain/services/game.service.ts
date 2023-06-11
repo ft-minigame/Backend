@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { GameRepository } from '../repositories/game.repository';
 import { Game } from '../models/game.entity';
 import { CreateGameDto } from '../../dto/create-game.dto';
-import { UserRepository } from 'src/v1/users/domain/repositories/users.repository';
 import { User } from 'src/v1/users/domain/models/user.entity';
 
 @Injectable()
