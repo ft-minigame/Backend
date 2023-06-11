@@ -1,8 +1,8 @@
 export class CoalitionScoresResponse {
-  gun: number;
-  gon: number;
-  gam: number;
-  lee: number;
+  private readonly gun: number;
+  private readonly gon: number;
+  private readonly gam: number;
+  private readonly lee: number;
 
   constructor(scores: Record<string, number>) {
     this.gun = scores['gun'] || 0;
