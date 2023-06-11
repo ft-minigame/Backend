@@ -20,11 +20,10 @@ export class RankController {
   async findCoalitionScores(): Promise<CoalitionScoresResponse> {
     return await this.rankService.findCoalitionScores();
   }
-
   @Get(':intraId')
   async findOneBy(
     @Param('intraId') intraId: string,
-  ): Promise<FindOneRankResponse> {
-    return await this.rankService.findOneBy(intraId);
+  ): Promise<FindOneRankResponse[]> {
+    return await this.rankService.findManyBy(intraId);
   }
 }

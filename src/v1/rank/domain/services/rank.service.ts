@@ -13,8 +13,8 @@ export class RankService {
     return await this.rankRepository.findAll();
   }
 
-  async findOneBy(intraId: string): Promise<FindOneRankResponse> {
-    return await this.rankRepository.findOneByIntraId(intraId);
+  async findManyBy(intraId: string): Promise<FindOneRankResponse[]> {
+    return await this.rankRepository.findManyByIntraId(intraId);
   }
 
   async findCoalitionScores(): Promise<CoalitionScoresResponse> {

@@ -23,22 +23,22 @@ export class RankRepository extends Repository<Game> {
     }));
   }
 
-  async findOneByIntraId(intraId: string): Promise<FindOneRankResponse> {
+  async findManyByIntraId(intraId: string): Promise<FindOneRankResponse[]> {
     try {
-      const game = await this.createQueryBuilder('game')
+      const games = await this.createQueryBuilder('game')
         .innerJoin('game.user', 'user')
         .where('user.intraId = :intraId', { intraId })
-        .getOne();
+        .getMany();
 
-      if (!game) {
-        throw new Error(`No game found with intraId: ${intraId}`);
+      if (!games) {
+        throw new Error(`No games found with intraId: ${intraId}`);
       }
 
-      return {
+      return games.map((game) => ({
         createdAt: game.createdAt,
         score: game.score,
         nickname: game.nickname,
-      };
+      }));
     } catch (error) {
       console.error(error);
       throw error;
