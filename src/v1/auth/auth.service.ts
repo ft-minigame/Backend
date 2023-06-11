@@ -3,19 +3,12 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UsersService } from '../users/domain/services/users.service';
-import { JwtService } from '@nestjs/jwt';
 import axios from 'axios';
 import { FtProfileInterface } from './interface/ft-profile.interface';
 import { UserCoalitions } from '../users/domain/models/user.entity';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
-  ) {}
-
   async getProfile(accessToken: string): Promise<FtProfileInterface> {
     try {
       const ftProfileResponse = await axios.get(
@@ -33,38 +26,33 @@ export class AuthService {
 
       return ftProfileResponse.data;
     } catch (err) {
-      // console.error(err);
+      console.error(err);
       throw new ConflictException(err, '42 api 호출 중 에러가 발생했습니다.');
     }
   }
 
   async getToken(code: string): Promise<any> {
-    return await this.ftFetch(code);
-  }
-
-  private async ftFetch(code: string) {
-    const UID =
-      'u-s4t2ud-38550761e834c25fce3bd7272f71cdab32f65acead8e2d2373a7770fdeb05175';
-    const SECRET =
-      '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';
-    const REDIRECT_URI = 'http://localhost:3000/redirect';
-    const URL = `https://api.intra.42.fr/oauth/token`;
+    const REDIRECT_URI = `${process.env.FT_AUTH_SECRET}/${process.env.REDIRECT_PARAMS}`;
 
     try {
-      const ftTokenResponse = await axios.post(URL, {
-        grant_type: 'authorization_code',
-        client_id: UID,
-        client_secret: SECRET,
-        code,
-        redirect_uri: REDIRECT_URI,
-      });
+      const ftTokenResponse = await axios.post(
+        `https://api.intra.42.fr/oauth/token`,
+        {
+          grant_type: 'authorization_code',
+          client_id: process.env.FT_AUTH_UID,
+          client_secret: process.env.FT_AUTH_SECRET,
+          code,
+          redirect_uri: REDIRECT_URI,
+        },
+      );
+
       if (ftTokenResponse.status !== 200) {
         throw new ConflictException('Failed to fetch token from 42 API');
       }
 
       return ftTokenResponse.data;
     } catch (err) {
-      // console.error(err);
+      console.error(err);
       throw new UnauthorizedException();
     }
   }
@@ -83,6 +71,7 @@ export class AuthService {
       if (coalitionResponse.status !== 200) {
         throw new ConflictException('Failed to fetch profile from 42 API');
       }
+
       return coalitionResponse.data[0].slug;
     } catch (err) {
       throw new ConflictException(err, '42 api 호출 중 에러가 발생했습니다.');
