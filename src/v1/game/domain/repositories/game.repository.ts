@@ -11,12 +11,14 @@ export class GameRepository extends Repository<Game> {
   }
 
   async createAndSave(createGameDto: CreateGameDto, user: User): Promise<Game> {
-    const game = this.create(createGameDto);
-    if (!game) {
+    try {
+      const game = this.create(createGameDto);
+
+      game.user = user;
+      return await this.save(game);
+    } catch (error) {
+      console.log(error);
       throw new Error('Game not created!');
     }
-    game.user = user;
-    await this.save(game);
-    return game;
   }
 }
