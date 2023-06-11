@@ -5,8 +5,8 @@ import { UsersModule } from './v1/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { typeOrmConfig } from './config/typeORM.config';
-import { RankService } from './v1/rank/domain/services/rank.service';
 import { RankModule } from './v1/rank/rank.module';
+import { AuthModule } from './v1/auth/auth.module';
 import { GameModule } from './v1/game/domain/game.module';
 
 @Module({
@@ -18,6 +18,7 @@ import { GameModule } from './v1/game/domain/game.module';
     TypeOrmModule.forRootAsync(typeOrmConfig),
     UsersModule,
     RankModule,
+    AuthModule,
     GameModule,
   ],
   controllers: [AppController],
