@@ -31,6 +31,6 @@ export class Game {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.games)
   user: User;
 }
