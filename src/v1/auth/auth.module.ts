@@ -6,11 +6,11 @@ import { UsersService } from '../users/domain/services/users.service';
 import { UsersModule } from '../users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../users/domain/models/user.entity';
-import { UserRepository } from '../users/domain/repositories/users.repository';
+import { UserRepository } from '../users/domain/repositories/user.repository';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserRepository, User]),
+    TypeOrmModule.forFeature([User]),
     UsersModule,
     JwtModule.register({
       global: true,
@@ -19,6 +19,6 @@ import { UserRepository } from '../users/domain/repositories/users.repository';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, UsersService],
+  providers: [AuthService, UsersService, UserRepository],
 })
 export class AuthModule {}

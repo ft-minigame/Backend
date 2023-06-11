@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../../dto/create-user.dto';
 import { UpdateUserDto } from '../../dto/update-user.dto';
-import { UserRepository } from '../repositories/users.repository';
+import { UserRepository } from '../repositories/user.repository';
 import { User } from '../models/user.entity';
 
 @Injectable()
@@ -17,7 +17,6 @@ export class UsersService {
   }
 
   async findOneByIntraId(intraId: string): Promise<User | null> {
-    console.log('bbbbbbb');
     return await this.userRepository.findOneByIntraId(intraId);
   }
 
@@ -31,10 +30,6 @@ export class UsersService {
 
   async findOrCreate(intraId: string): Promise<User> {
     const user = await this.findOneByIntraId(intraId);
-
-    if (!user) {
-      return await this.create({ intraId });
-    }
 
     return user;
   }

@@ -6,6 +6,7 @@ import {
 import { UsersService } from '../users/domain/services/users.service';
 import { JwtService } from '@nestjs/jwt';
 import axios from 'axios';
+import { FtProfileInterface } from './interface/ft-profile.interface';
 
 interface TokenResponse {
   access_token: string;
@@ -39,7 +40,7 @@ export class AuthService {
     };
   }
 
-  async getProfile(accessToken: string): Promise<any> {
+  async getProfile(accessToken: string): Promise<FtProfileInterface> {
     try {
       const ftProfileResponse = await axios.get(
         `https://api.intra.42.fr/v2/me`,
