@@ -1,9 +1,28 @@
+import {
+  IsBoolean,
+  IsDate,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+} from 'class-validator';
+
 export class CreateGameDto {
-  score: number = 0;
+  @IsNotEmpty()
+  @IsNumber()
+  score: number;
 
-  nickname: string = '';
+  @IsNotEmpty()
+  @IsString()
+  nickname: string;
 
-  playTime: Date = new Date();
+  @IsNotEmpty()
+  playTime: Date;
 
-  hidden: boolean = false;
+  @IsNotEmpty()
+  @IsBoolean()
+  hidden: boolean;
+
+  @IsNotEmpty()
+  @IsString()
+  intraId: string;
 }
