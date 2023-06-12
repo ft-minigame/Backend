@@ -1,12 +1,12 @@
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { UserCoalitions } from '../domain/models/user.entity';
+import { EUserCoalitions } from '../domain/models/user.entity';
 
 export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   readonly intraId: string;
 
-  @IsEnum(UserCoalitions)
+  @IsEnum(EUserCoalitions)
   @IsNotEmpty()
-  readonly coalitions: UserCoalitions;
+  readonly coalitions: EUserCoalitions;
 }

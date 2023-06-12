@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { RankRepository } from '../repositories/rank.repository';
 import { FindAllRankResponse } from '../../response/findAllRank.response';
 import { FindOneRankResponse } from '../../response/findOneRank.response';
-import { UserCoalitions } from '../../../users/domain/models/user.entity';
+import { EUserCoalitions } from '../../../users/domain/models/user.entity';
 import { CoalitionScoresResponse } from '../../response/findCoalitions.response';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class RankService {
   async findCoalitionScores(): Promise<CoalitionScoresResponse> {
     const scores: Record<string, number> = {};
 
-    for (const coalition of Object.values(UserCoalitions)) {
+    for (const coalition of Object.values(EUserCoalitions)) {
       const totalScore = await this.rankRepository.findScoresByCoalition(
         coalition,
       );

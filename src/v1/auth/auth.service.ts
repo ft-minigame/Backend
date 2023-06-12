@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import axios from 'axios';
 import { FtProfileInterface } from './interface/ft-profile.interface';
-import { UserCoalitions } from '../users/domain/models/user.entity';
+import { EUserCoalitions } from '../users/domain/models/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -57,7 +57,10 @@ export class AuthService {
     }
   }
 
-  async getCoalition(accessToken: string, id: number): Promise<UserCoalitions> {
+  async getCoalition(
+    accessToken: string,
+    id: number,
+  ): Promise<EUserCoalitions> {
     try {
       const coalitionResponse = await axios.get(
         `https://api.intra.42.fr/v2/users/${id}/coalitions`,
