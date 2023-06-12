@@ -2,8 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { Game } from 'src/v1/game/domain/models/game.entity';
 import { EUserCoalitions } from '../../../users/domain/models/user.entity';
-import { FindAllRankResponse } from '../../response/findAllRank.response';
 import { FindOneRankResponse } from '../../response/findOneRank.response';
+
+export enum EOrder {
+  ASC = 'ASC',
+  DESC = 'DESC',
+}
 
 @Injectable()
 export class RankRepository extends Repository<Game> {
@@ -11,19 +15,16 @@ export class RankRepository extends Repository<Game> {
     super(Game, dataSources.createEntityManager());
   }
 
-  async findAll(): Promise<FindAllRankResponse[]> {
-    const games = await this.createQueryBuilder('game')
-      .innerJoinAndSelect('game.user', 'user')
-      .orderBy('game.score', 'DESC')
-      .getMany();
-
-    return games.map((game) => ({
-      nickname: game.nickname,
-      score: game.score,
-      coalitions: game.user.coalitions,
-      createdAt: game.createdAt,
-      intraId: game.user.intraId,
-    }));
+  async findAllOrderByScore(order: EOrder): Promise<Game[]> {
+    try {
+      return await this.createQueryBuilder('game')
+        .innerJoinAndSelect('game.user', 'user')
+        .orderBy('game.score', `${order}`)
+        .getMany();
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
   }
 
   async findManyByIntraId(intraId: string): Promise<FindOneRankResponse[]> {
