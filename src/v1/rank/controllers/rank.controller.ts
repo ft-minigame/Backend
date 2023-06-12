@@ -6,10 +6,7 @@ import { CoalitionScoresResponse } from '../response/findCoalitions.response';
 
 @Controller('rank')
 export class RankController {
-  constructor(
-    private readonly rankService: RankService,
-    private readonly coalitionService: RankService,
-  ) {}
+  constructor(private readonly rankService: RankService) {}
 
   @Get('all')
   async findAll(): Promise<FindAllRankResponse[]> {

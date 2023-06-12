@@ -7,7 +7,7 @@ import { FindOneRankResponse } from '../../response/findOneRank.response';
 
 @Injectable()
 export class RankRepository extends Repository<Game> {
-  constructor(private dataSources: DataSource) {
+  constructor(private readonly dataSources: DataSource) {
     super(Game, dataSources.createEntityManager());
   }
 
@@ -55,7 +55,7 @@ export class RankRepository extends Repository<Game> {
 
     let totalScore = 0;
 
-    for (let result of results) {
+    for (const result of results) {
       totalScore += result.max;
     }
 
