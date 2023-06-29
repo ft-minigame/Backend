@@ -1,9 +1,9 @@
-import { UserCoalitions } from '../../users/domain/models/user.entity';
+import { EUserCoalitions } from '../../users/domain/models/user.entity';
 
 export interface FindAllRankResponse {
   nickname: string;
   score: number;
-  coalitions: UserCoalitions;
+  coalitions: EUserCoalitions;
   createdAt: Date;
   intraId: string;
 }

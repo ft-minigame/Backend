@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-export enum UserCoalitions {
+export enum EUserCoalitions {
   GUN = 'gun',
   GON = 'gon',
   GAM = 'gam',
@@ -25,9 +25,9 @@ export class User {
 
   @Column({
     type: 'enum',
-    enum: UserCoalitions,
+    enum: EUserCoalitions,
   })
-  coalitions: UserCoalitions;
+  coalitions: EUserCoalitions;
 
   @Column({ default: 0 })
   character: number;
