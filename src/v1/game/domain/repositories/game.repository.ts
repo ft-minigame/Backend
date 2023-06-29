@@ -12,7 +12,7 @@ export class GameRepository extends Repository<Game> {
 
   async createAndSave(createGameDto: CreateGameDto, user: User): Promise<Game> {
     try {
-      const game = this.create(createGameDto);
+      const game = this.create();
 
       game.user = user;
       return await this.save(game);

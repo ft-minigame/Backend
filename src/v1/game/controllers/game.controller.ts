@@ -13,13 +13,10 @@ export class GameController {
 
   @Post('create')
   async createAndSave(@Body() createGameDto: CreateGameDto): Promise<Game> {
-    const user = await this.userRepository.findOneBy({
-      intraId: createGameDto.intraId,
-    });
+    const user = await this.userRepository.findOneByIntraIdOrFail(
+      createGameDto.intraId,
+    );
 
-    if (!user) {
-      throw new Error('User not found');
-    }
     return await this.gameService.createAndSave(createGameDto, user);
   }
 }
