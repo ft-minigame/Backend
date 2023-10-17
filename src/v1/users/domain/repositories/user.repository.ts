@@ -1,6 +1,6 @@
 import { Repository, DataSource } from 'typeorm';
 import { User } from '../models/user.entity';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../../dto/create-user.dto';
 
 @Injectable()
@@ -18,16 +18,7 @@ export class UserRepository extends Repository<User> {
       return await this.findOneBy({ intraId });
     } catch (err) {
       console.error(err);
-      throw new Error(err);
-    }
-  }
-
-  async findOneByIntraIdOrFail(intraId: string): Promise<User> {
-    try {
-      return await this.findOneByOrFail({ intraId });
-    } catch (err) {
-      console.error(err);
-      throw new NotFoundException('Failed to find user by intraId');
+      throw new Error('Failed to find user by intraId');
     }
   }
 }
