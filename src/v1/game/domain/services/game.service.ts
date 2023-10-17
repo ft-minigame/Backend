@@ -9,6 +9,7 @@ export class GameService {
   constructor(private readonly gameRepository: GameRepository) {}
 
   async createAndSave(createGameDto: CreateGameDto, user: User): Promise<Game> {
+    console.log('GameService.createAndSave()');
     return await this.gameRepository.createAndSave(createGameDto, user);
   }
 }
